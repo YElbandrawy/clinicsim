@@ -1,0 +1,66 @@
+import random 
+class Queue:
+    def __init__(self):
+        self.items = []
+    def is_empty(self):
+        return self.items == []
+    def enqueue(self, item):
+        self.items.insert(0,item)
+    def dequeue(self):
+        return self.items.pop()
+    def size(self):
+        return len(self.items)
+
+class Paitent:
+    def __init__(self,time):
+        self.age = random.randrange(20,60)
+        self.time_stamp = time
+    def get_age(self):
+        return self.age
+    def get_waiting_time(self,current_time):
+        return current_time - self.time_stamp
+
+class doctor:
+    def __init__(self, pr):
+        self.paitent_rate = pr
+        self.current_paitent = None
+        self.time_remain = 0
+
+    def tick(self):
+        if self.current_paitent != None:
+            self.time_remain -= 1
+            if self.time_remain <= 0:
+                self.current_paitent = None
+    def busy(self):
+        return self.current_paitent != None
+
+    def start_next(self,new_paitent):
+        self.current_paitent = new_paitent
+        self.time_remain = new_paitent.get_age()/self.paitent_rate*60
+
+def new_paitent():
+    prop = random.randint(1 ,360)
+    if prop == 350:
+        return True
+    else:
+        return False
+
+def simulation(simlinth , tar):
+    the_doctor = doctor(tar)
+    waiting_queue = Queue()
+    waitingtime = []
+    for current_sec in range(simlinth):
+        if new_paitent():
+            paitent = Paitent(current_sec)
+            waiting_queue.enqueue(paitent)
+            
+        if ((not the_doctor.busy()) and (not waiting_queue.is_empty())):
+            next_paitent = waiting_queue.dequeue()
+            waitingtime.append(next_paitent.get_waiting_time(current_sec))
+            the_doctor.start_next(next_paitent)
+        the_doctor.tick()
+    average = (sum(waitingtime)/ len(waitingtime))/60
+    print("average waiting time = " + str("{:.4f}".format(average)) +"min" +"      "+ " residual paitents :" + str(waiting_queue.size()))
+    
+
+simulation(46000,5)
