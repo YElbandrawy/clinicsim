@@ -11,7 +11,7 @@ class Queue:
     def size(self):
         return len(self.items)
 
-class Paitent:
+class Patient:
     def __init__(self,time):
         self.age = random.randrange(20,60)
         self.time_stamp = time
@@ -38,8 +38,8 @@ class doctor:
         self.current_paitent = new_paitent
         self.time_remain = new_paitent.get_age()/self.paitent_rate*60
 
-def new_paitent():
-    prop = random.randint(1 ,360)
+def new_patient():
+    prop = random.randint(0 ,360)
     if prop == 350:
         return True
     else:
@@ -50,17 +50,17 @@ def simulation(simlinth , tar):
     waiting_queue = Queue()
     waitingtime = []
     for current_sec in range(simlinth):
-        if new_paitent():
-            paitent = Paitent(current_sec)
-            waiting_queue.enqueue(paitent)
+        if new_patient():
+            patient = Patient(current_sec)
+            waiting_queue.enqueue(patient)
             
         if ((not the_doctor.busy()) and (not waiting_queue.is_empty())):
-            next_paitent = waiting_queue.dequeue()
-            waitingtime.append(next_paitent.get_waiting_time(current_sec))
-            the_doctor.start_next(next_paitent)
+            next_patient = waiting_queue.dequeue()
+            waitingtime.append(next_patient.get_waiting_time(current_sec))
+            the_doctor.start_next(next_patient)
         the_doctor.tick()
     average = (sum(waitingtime)/ len(waitingtime))/60
-    print("average waiting time = " + str("{:.4f}".format(average)) +"min" +"      "+ " residual paitents :" + str(waiting_queue.size()))
+    print("average waiting time = " + str("{:.4f}".format(average)) +" min" +"      "+ " residual patients :" + str(waiting_queue.size()))
     
-
-simulation(46000,5)
+for i in range (10):
+    simulation(14400,5)
