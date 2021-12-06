@@ -45,7 +45,7 @@ def new_patient():
     else:
         return False
 
-def simulation(simlinth , tar):
+def simulation(simlength , tar):
     the_doctor = doctor(tar)
     waiting_queue = Queue()
     waitingtime = []
