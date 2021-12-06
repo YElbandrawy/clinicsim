@@ -49,7 +49,7 @@ def simulation(simlength , tar):
     the_doctor = doctor(tar)
     waiting_queue = Queue()
     waitingtime = []
-    for current_sec in range(simlinth):
+    for current_sec in range(simlength):
         if new_patient():
             patient = Patient(current_sec)
             waiting_queue.enqueue(patient)
